@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irmak Etüt Merkezi | Ankara Çankaya'da Aile Ortamı</title>
+    <meta name="description" content="İlkokuldan üniversiteye, ödev takibinden sınav hazırlığına kadar yanınızdayız. Ankara Çankaya'da eğitim kalitesi kanıtlanmış Irmak Etüt Merkezi.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="logo.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        // Logodan alınan özel renk paleti
+                        primary: '#143C54', // Koyu Lacivert (Irmak yazısı)
+                        secondary: '#E5793E', // Turuncu/Kiremit (Etüt Merkezi yazısı, Güneş)
+                        tertiary: '#2CA5A0', // Turkuaz/Su Yeşili (Kitap rengi)
+                        dark: '#0F2C3E',
+                        light: '#F8FAF9'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles for Animations -->
+    <style>
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Slider dots */
+        .dot {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .dot.active {
+            background-color: #E5793E; /* secondary color */
+            transform: scale(1.3);
+        }
+
+        /* Gradient Overlay for Hero */
+        .hero-bg {
+            background-image: linear-gradient(rgba(20, 60, 84, 0.88), rgba(20, 60, 84, 0.95)), url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* FAQ Accordion Smoothness */
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        /* Prevent horizontal scroll on mobile */
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-light antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-40 transition-all duration-300 bg-white shadow-md" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 md:h-24">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="flex items-center gap-3 group">
+                        <!-- 1:1 Aspect Ratio Logo -->
+                        <img src="logo.jpg" alt="Irmak Etüt Merkezi Logosu" class="w-12 h-12 md:w-16 md:h-16 object-contain aspect-square rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        <div class="flex flex-col leading-tight">
+                            <span class="text-xl md:text-2xl font-black text-primary tracking-wide">IRMAK</span>
+                            <span class="text-xs md:text-sm font-bold text-secondary tracking-widest">ETÜT MERKEZİ</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex space-x-6 xl:space-x-8 items-center">
+                    <a href="#hakkimizda" class="text-gray-600 hover:text-tertiary font-medium transition-colors">Hakkımızda</a>
+                    <a href="#hizmetler" class="text-gray-600 hover:text-tertiary font-medium transition-colors">Neler Yapıyoruz?</a>
+                    <a href="#yorumlar" class="text-gray-600 hover:text-tertiary font-medium transition-colors">Yorumlar</a>
+                    <a href="#sss" class="text-gray-600 hover:text-tertiary font-medium transition-colors">S.S.S.</a>
+                    <a href="#iletisim" class="text-gray-600 hover:text-tertiary font-medium transition-colors">İletişim</a>
+                    <a href="tel:+905077918925" class="bg-primary text-white px-6 py-2.5 rounded-full font-semibold hover:bg-dark transition-colors shadow-lg shadow-primary/30 flex items-center gap-2">
+                        <i class="fa-solid fa-phone"></i> Hemen Ara
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-primary hover:text-secondary focus:outline-none text-3xl p-2">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full left-0 top-full">
+            <div class="px-4 pt-2 pb-6 space-y-2 text-center max-h-[80vh] overflow-y-auto">
+                <a href="#hakkimizda" class="block px-3 py-4 text-base font-medium text-gray-700 hover:text-tertiary hover:bg-gray-50 rounded-md border-b border-gray-50">Hakkımızda</a>
+                <a href="#hizmetler" class="block px-3 py-4 text-base font-medium text-gray-700 hover:text-tertiary hover:bg-gray-50 rounded-md border-b border-gray-50">Neler Yapıyoruz?</a>
+                <a href="#yorumlar" class="block px-3 py-4 text-base font-medium text-gray-700 hover:text-tertiary hover:bg-gray-50 rounded-md border-b border-gray-50">Velilerimiz Ne Diyor?</a>
+                <a href="#sss" class="block px-3 py-4 text-base font-medium text-gray-700 hover:text-tertiary hover:bg-gray-50 rounded-md border-b border-gray-50">S.S.S.</a>
+                <a href="#iletisim" class="block px-3 py-4 text-base font-medium text-gray-700 hover:text-tertiary hover:bg-gray-50 rounded-md">İletişim</a>
+                <a href="tel:+905077918925" class="block mt-4 w-full bg-primary text-white px-5 py-4 rounded-xl font-semibold text-center text-lg shadow-md"><i class="fa-solid fa-phone mr-2"></i> 0507 791 89 25</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative pt-36 pb-24 lg:pt-48 lg:pb-40 hero-bg text-center flex items-center min-h-[90vh]">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 reveal w-full">
+            <!-- Google Rating Badge -->
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full mb-8 text-white mx-auto">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5 bg-white rounded-full p-0.5">
+                <span class="font-semibold text-xs sm:text-sm">Google'da 4.9/5.0 Puan</span>
+                <div class="flex text-yellow-400 text-xs">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="text-xs sm:text-sm opacity-90 hidden md:inline ml-2 pl-2 border-l border-white/30">Eğitim Kalitesi Kanıtlanmış Kurum</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight">
+                Ankara Çankaya'da Eğitim Kalitesi Kanıtlanmış <span class="text-secondary block mt-2">Aile Ortamı</span>
+            </h1>
+            
+            <p class="text-base sm:text-lg lg:text-xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed px-4">
+                İlkokuldan üniversiteye, ödev takibinden sınav hazırlığına kadar yanınızdayız. Irmak Etüt Merkezi ile başarıya gülümseyerek ulaşın.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0">
+                <a href="tel:+905077918925" class="bg-secondary text-white px-6 sm:px-8 py-4 rounded-full font-bold text-base sm:text-lg hover:bg-orange-600 transition-all duration-300 shadow-lg shadow-secondary/40 flex items-center justify-center gap-3 transform hover:-translate-y-1 w-full sm:w-auto">
+                    <i class="fa-solid fa-phone-volume text-xl"></i> Eğitimlerimiz İçin Bilgi Alın
+                </a>
+                <a href="https://wa.me/905077918925" target="_blank" class="bg-[#25D366] text-white px-6 sm:px-8 py-4 rounded-full font-bold text-base sm:text-lg hover:bg-[#20b858] transition-all duration-300 shadow-lg shadow-green-500/30 flex items-center justify-center gap-3 transform hover:-translate-y-1 w-full sm:w-auto">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> Whatsapp'tan Bize Yazın
+                </a>
+            </div>
+        </div>
+        
+        <!-- Bottom Curve Divider -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0">
+            <svg class="relative block w-full h-[40px] md:h-[60px] lg:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118,130.9,122.9,200.5,115.15,243.61,110.32,283.47,94.38,321.39,56.44Z" fill="#F8FAF9"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="hakkimizda" class="py-16 lg:py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                <div class="lg:w-1/2 w-full reveal order-2 lg:order-1">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=800" alt="Irmak Etüt Merkezi Eğitim" class="w-full h-auto object-cover rounded-3xl group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6 sm:p-8 text-white w-full">
+                            <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 inline-block">
+                                <p class="text-3xl sm:text-4xl font-black text-white">Yılların</p>
+                                <p class="text-secondary font-bold text-xl sm:text-2xl mt-1">Tecrübesi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 w-full reveal order-1 lg:order-2">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-tertiary/10 text-tertiary font-bold text-sm mb-6 uppercase tracking-wider">
+                        <i class="fa-solid fa-heart text-secondary"></i> Hakkımızda
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-6 leading-tight">Biz Sadece Bir Etüt Merkezi Değiliz, Öğrencilerimizin <span class="text-secondary">İkinci Eviyiz.</span></h2>
+                    <p class="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed">
+                        Öğrencilerimiz kapıdan girdikleri andan itibaren kendilerini sıcak, güvenli ve disiplinli bir aile ortamının içinde bulurlar. Başta <strong>Irmak Hoca</strong>, <strong>Fethiye Hoca</strong> ve <strong>Medine Hoca</strong> olmak üzere tüm kadromuz, öğrencilere kendi çocukları gibi ihtimam gösterir.
+                    </p>
+                    <p class="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
+                        Amacımız sadece notları yükseltmek değil; öğrenmeyi sevdirmek, özgüven aşılamak ve geleceğin başarılı bireylerini yetiştirmektir. Yüzlerce velimizin de dediği gibi: <i>Burası çocuklarınızı güvenle emanet edebileceğiniz, gözünüzün arkada kalmayacağı o özel yer.</i>
+                    </p>
+                    
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start gap-4 p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-user-graduate text-tertiary text-lg"></i>
+                            </div>
+                            <span class="text-primary font-semibold mt-2">Birebir İlgi ve Rehberlik</span>
+                        </li>
+                        <li class="flex items-start gap-4 p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-chalkboard-user text-secondary text-lg"></i>
+                            </div>
+                            <span class="text-primary font-semibold mt-2">Tam Kadro, Tecrübeli Öğretmenler</span>
+                        </li>
+                        <li class="flex items-start gap-4 p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-house-chimney-window text-primary text-lg"></i>
+                            </div>
+                            <span class="text-primary font-semibold mt-2">Samimi ve Güvenli Fiziksel Ortam</span>
+                        </li>
+                    </ul>
+
+                    <a href="https://www.instagram.com/irmak_egitim/" target="_blank" class="inline-flex items-center gap-3 text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-6 py-3 rounded-full font-bold hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa-brands fa-instagram text-2xl"></i> Bizi Instagram'da Tanıyın
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="hizmetler" class="py-16 lg:py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Neler Yapıyoruz?</h2>
+                <div class="w-24 h-1.5 bg-secondary mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 text-lg sm:text-xl px-4">İlkokuldan üniversiteye kadar her öğrencinin ihtiyacına uygun, sonuç odaklı ve verimli eğitim programlarımızla yanınızdayız.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <!-- Card 1 -->
+                <div class="bg-light rounded-3xl p-8 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal border-b-4 border-transparent hover:border-tertiary group">
+                    <div class="w-16 h-16 bg-white text-tertiary rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-tertiary group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-square-root-variable"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Matematik & İngilizce Özel Ders</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Sıfırdan zirveye! Özellikle Matematik ve İngilizce derslerinde üniversite sınavına kadar uzanan uzmanlık ve garantili başarı.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-light rounded-3xl p-8 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal border-b-4 border-transparent hover:border-secondary group" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 bg-white text-secondary rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Düzenli Ödev Takibi & Tekrar</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Velilerimizin en sevdiği özellik. Evde "ödevini yaptın mı?" krizine son. Tüm ödevler burada biter, konular pekiştirilir.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-light rounded-3xl p-8 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal border-b-4 border-transparent hover:border-primary group" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-white text-primary rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Sınavlara Hazırlık (LGS/YKS)</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Hedef odaklı, disiplinli ve düzenli deneme sınavlarıyla stres yönetimini sağlayan akademik başarı programları.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-light rounded-3xl p-8 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal border-b-4 border-transparent hover:border-secondary group" style="transition-delay: 300ms;">
+                    <div class="w-16 h-16 bg-white text-secondary rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Dolu Dolu Yaz Okulu</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Çocukların hem eğlenip hem de geçmiş yılın açıklarını kapattığı, yeni döneme hazırlandığı eğitici yaz programları.</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 sm:mt-16 reveal">
+                <a href="#iletisim" class="inline-flex items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-dark transition-colors shadow-lg shadow-primary/30 w-full sm:w-auto">
+                    Programlar Hakkında Bilgi Al <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="yorumlar" class="py-16 lg:py-24 bg-primary text-white relative overflow-hidden">
+        <!-- Background Decor -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 opacity-5 pointer-events-none">
+            <i class="fa-solid fa-quote-right text-[15rem] sm:text-[25rem]"></i>
+        </div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 opacity-5 pointer-events-none">
+            <i class="fa-solid fa-book-open-reader text-[15rem] sm:text-[25rem]"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 sm:mb-16 reveal">
+                <div class="flex justify-center mb-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-12 h-12 bg-white rounded-full p-2.5 shadow-lg">
+                </div>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">Velilerimiz Ne Diyor?</h2>
+                <div class="flex justify-center text-yellow-400 text-xl sm:text-2xl mb-4 gap-1">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-blue-100 text-base sm:text-lg px-4">Google'da yapılan gerçek ve organik değerlendirmelerimiz.</p>
+            </div>
+
+            <!-- Slider Container -->
+            <div class="relative max-w-4xl mx-auto reveal">
+                <div class="overflow-hidden relative rounded-3xl" id="testimonial-slider">
+                    
+                    <!-- Slide 1 -->
+                    <div class="slide active bg-white/10 backdrop-blur-lg p-6 sm:p-10 md:p-14 rounded-3xl border border-white/20 text-center transition-all duration-500 w-full">
+                        <i class="fa-solid fa-quote-left text-3xl sm:text-5xl text-secondary mb-6 opacity-80"></i>
+                        <p class="text-lg sm:text-xl md:text-2xl font-light italic leading-relaxed mb-8 px-2 sm:px-8">
+                            "4 yıldır hem etüt hem de yaz okuluna güvenle oğlumu teslim ettiğim, iyi ki dediğim Etüt Merkezi. Başta Irmak ve Fethiye Hanım olmak üzere emeklerini, ilgilerini eksik etmeyen tüm öğretmenlere eğitim kaliteniz ve birebir ilginiz için çok teşekkür ediyorum."
+                        </p>
+                        <div>
+                            <p class="font-bold text-lg sm:text-xl">Fatma Seda Özil</p>
+                            <p class="text-sm text-tertiary font-medium mt-1">Google Yorumu <i class="fa-solid fa-circle-check ml-1"></i></p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide hidden bg-white/10 backdrop-blur-lg p-6 sm:p-10 md:p-14 rounded-3xl border border-white/20 text-center transition-all duration-500 w-full">
+                        <i class="fa-solid fa-quote-left text-3xl sm:text-5xl text-secondary mb-6 opacity-80"></i>
+                        <p class="text-lg sm:text-xl md:text-2xl font-light italic leading-relaxed mb-8 px-2 sm:px-8">
+                            "Üniversitede 4 senedir geçemediğim matematik dersinin sınavına bugün 5. kez girdim. Sınavdan önce Irmak hocamla tüm konulara çalıştık. Sınav beklediğimden çok daha iyi geçti. Ders almak isteyenlere kesinlikle tavsiye ederim."
+                        </p>
+                        <div>
+                            <p class="font-bold text-lg sm:text-xl">Bedriye Topsakal</p>
+                            <p class="text-sm text-tertiary font-medium mt-1">Google Yorumu <i class="fa-solid fa-circle-check ml-1"></i></p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide hidden bg-white/10 backdrop-blur-lg p-6 sm:p-10 md:p-14 rounded-3xl border border-white/20 text-center transition-all duration-500 w-full">
+                        <i class="fa-solid fa-quote-left text-3xl sm:text-5xl text-secondary mb-6 opacity-80"></i>
+                        <p class="text-lg sm:text-xl md:text-2xl font-light italic leading-relaxed mb-8 px-2 sm:px-8">
+                            "Irmak Etüt Merkezinde 4.yılımız çok memnunuz. İlk günden beri Irmak Hanım çocuklarla çok ilgili. Ödevler zamanında bitiyor, ders tekrarları yapılıyor. Kapıda sıcak karşılamaları tam bir aile ortamını yansıtıyor."
+                        </p>
+                        <div>
+                            <p class="font-bold text-lg sm:text-xl">Suna / Süleyman Aydos</p>
+                            <p class="text-sm text-tertiary font-medium mt-1">Google Yorumu <i class="fa-solid fa-circle-check ml-1"></i></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Slider Controls -->
+                <div class="flex justify-center mt-8 gap-4" id="slider-dots">
+                    <button class="dot active w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-white/30 cursor-pointer hover:bg-white/60 focus:outline-none" onclick="goToSlide(0)" aria-label="Yorum 1"></button>
+                    <button class="dot w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-white/30 cursor-pointer hover:bg-white/60 focus:outline-none" onclick="goToSlide(1)" aria-label="Yorum 2"></button>
+                    <button class="dot w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-white/30 cursor-pointer hover:bg-white/60 focus:outline-none" onclick="goToSlide(2)" aria-label="Yorum 3"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="sss" class="py-16 lg:py-24 bg-light">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16 reveal">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Sıkça Sorulan Sorular</h2>
+                <div class="w-24 h-1.5 bg-secondary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-4 reveal">
+                <!-- FAQ Item 1 -->
+                <div class="border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+                    <button class="faq-button w-full text-left px-6 py-5 sm:py-6 font-bold text-base sm:text-lg text-primary flex justify-between items-center focus:outline-none">
+                        <span class="pr-4">Çalışma saatleriniz nedir?</span>
+                        <div class="w-8 h-8 rounded-full bg-light flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-chevron-down text-tertiary transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content bg-white px-6 text-gray-600 rounded-b-2xl">
+                        <p class="pb-6 text-sm sm:text-base leading-relaxed border-t border-gray-100 pt-4">Kurumumuz haftanın her günü <strong>08:00 - 19:00</strong> saatleri arasında hizmet vermektedir. Detaylı çalışma takvimi ve tatil günleri için bizimle iletişime geçebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+                    <button class="faq-button w-full text-left px-6 py-5 sm:py-6 font-bold text-base sm:text-lg text-primary flex justify-between items-center focus:outline-none">
+                        <span class="pr-4">Hangi yaş gruplarına eğitim veriyorsunuz?</span>
+                        <div class="w-8 h-8 rounded-full bg-light flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-chevron-down text-tertiary transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content bg-white px-6 text-gray-600 rounded-b-2xl">
+                        <p class="pb-6 text-sm sm:text-base leading-relaxed border-t border-gray-100 pt-4">İlkokul, Ortaokul, Lise ve Üniversite seviyesinde (takviye dersler dahil) geniş bir yelpazede eğitim sunuyoruz. Özellikle Matematik ve İngilizce branşlarında her yaş grubuna yönelik özel programlarımız mevcuttur.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+                    <button class="faq-button w-full text-left px-6 py-5 sm:py-6 font-bold text-base sm:text-lg text-primary flex justify-between items-center focus:outline-none">
+                        <span class="pr-4">Kurumunuza ulaşım nasıl sağlanır?</span>
+                        <div class="w-8 h-8 rounded-full bg-light flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-chevron-down text-tertiary transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content bg-white px-6 text-gray-600 rounded-b-2xl">
+                        <p class="pb-6 text-sm sm:text-base leading-relaxed border-t border-gray-100 pt-4">Ankara Çankaya'da, <strong>Bayraktar Mahallesi, Vedat Dalokay Caddesi No:58/A</strong> adresinde oldukça merkezi ve ulaşımı kolay bir konumdayız. Otobüs ve dolmuş duraklarına yürüme mesafesindeyiz.</p>
+                    </div>
+                </div>
+                
+                 <!-- FAQ Item 4 -->
+                 <div class="border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+                    <button class="faq-button w-full text-left px-6 py-5 sm:py-6 font-bold text-base sm:text-lg text-primary flex justify-between items-center focus:outline-none">
+                        <span class="pr-4">Kayıt yaptırmadan önce deneme dersi alabilir miyiz?</span>
+                        <div class="w-8 h-8 rounded-full bg-light flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-chevron-down text-tertiary transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content bg-white px-6 text-gray-600 rounded-b-2xl">
+                        <p class="pb-6 text-sm sm:text-base leading-relaxed border-t border-gray-100 pt-4">Kesinlikle! Öğrencimizin kurum ortamını görmesi ve öğretmenlerimizle tanışması için <strong>Ücretsiz Deneme Dersi</strong> imkanımız bulunmaktadır. Randevu almak için hemen arayabilirsiniz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="iletisim" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 bg-light rounded-[2.5rem] overflow-hidden shadow-2xl reveal border border-gray-100">
+                
+                <!-- Contact Info -->
+                <div class="p-8 sm:p-12 lg:p-16 bg-primary text-white flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-tertiary opacity-10"></div>
+                    <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-secondary opacity-20"></div>
+                    
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 relative z-10">Bize Ulaşın</h2>
+                    <p class="text-blue-100 mb-10 text-base sm:text-lg relative z-10 leading-relaxed">Çocuğunuzun geleceği için atacağınız en doğru adım. Hemen arayın veya kahve içmeye gelin.</p>
+                    
+                    <div class="space-y-8 relative z-10">
+                        <a href="tel:+905077918925" class="flex items-start gap-5 hover:text-secondary transition-colors group">
+                            <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-secondary group-hover:text-white transition-all duration-300 shadow-inner flex-shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div class="pt-1">
+                                <p class="text-blue-200 text-sm mb-1 uppercase tracking-wider font-semibold">Telefon</p>
+                                <p class="font-bold text-xl sm:text-2xl tracking-wide">0507 791 89 25</p>
+                            </div>
+                        </a>
+                        
+                        <div class="flex items-start gap-5">
+                            <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl shadow-inner flex-shrink-0">
+                                <i class="fa-solid fa-clock text-tertiary"></i>
+                            </div>
+                            <div class="pt-1">
+                                <p class="text-blue-200 text-sm mb-1 uppercase tracking-wider font-semibold">Çalışma Saatleri</p>
+                                <p class="font-bold text-lg sm:text-xl leading-snug">Haftanın Her Günü<br>08.00 - 19.00</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-5">
+                            <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl shadow-inner flex-shrink-0">
+                                <i class="fa-solid fa-location-dot text-secondary"></i>
+                            </div>
+                            <div class="pt-1">
+                                <p class="text-blue-200 text-sm mb-1 uppercase tracking-wider font-semibold">Adres</p>
+                                <p class="font-medium text-base sm:text-lg leading-relaxed text-blue-50">Bayraktar Mah. Vedat Dalokay Cd.<br>No:58/A, 06670 Çankaya/Ankara</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-14 relative z-10">
+                        <p class="text-blue-200 text-sm mb-4 uppercase tracking-wider font-semibold">Sosyal Medyada Biz</p>
+                        <div class="flex gap-4">
+                            <a href="https://www.instagram.com/irmak_egitim/" target="_blank" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-xl hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-red-500 hover:to-purple-500 transition-all duration-300 hover:scale-110 shadow-lg">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/irmakegitim/" target="_blank" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-xl hover:bg-blue-600 transition-all duration-300 hover:scale-110 shadow-lg">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Embed -->
+                <div class="h-[400px] lg:h-auto w-full min-h-[400px] bg-gray-200">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3060.71618365452!2d32.877821315629125!3d39.90295809467657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f0cba1e4b9d%3A0xcfbb3d8544a86f9f!2zSXJtYWsgRXTDvHQgTWVya2V6aQ!5e0!3m2!1str!2str!4v1680000000000!5m2!1str!2str" 
+                        class="w-full h-full border-0 grayscale-[20%] contrast-125" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-gray-400 py-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            
+            <!-- Footer Logo -->
+            <div class="flex items-center gap-3">
+                <img src="logo.jpg" alt="Irmak Etüt Merkezi" class="w-12 h-12 object-contain aspect-square rounded-md bg-white p-0.5">
+                <div class="flex flex-col leading-none">
+                    <span class="text-white font-black tracking-wide text-lg">IRMAK</span>
+                    <span class="text-secondary font-bold text-xs tracking-widest mt-1">ETÜT MERKEZİ</span>
+                </div>
+            </div>
+            
+            <p class="text-sm text-center md:text-left text-gray-500">
+                &copy; <span id="year"></span> Irmak Etüt Merkezi. Tüm Hakları Saklıdır.
+            </p>
+            
+            <div class="text-sm text-center md:text-right font-medium text-gray-500">
+                <p>Ankara'nın En İyi Etüt Merkezi</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- UNAL PARTNERLIK DEMO BADGE (Bottom Left) -->
+    <a href="https://unal-partnering.github.io/anasayfa" class="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 bg-[#1c2331] hover:bg-[#252f44] border border-gray-700/50 rounded-xl shadow-2xl flex items-center p-1.5 sm:p-2 pr-4 sm:pr-5 gap-3 transition-all duration-300 transform hover:scale-105 group" style="box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
+        <img src="unal.jpg" alt="Ünal Partnerlik" class="w-9 h-9 sm:w-11 sm:h-11 object-cover rounded-lg bg-gray-800 shadow-sm border border-gray-700">
+        <div class="flex flex-col justify-center">
+            <span class="text-[#D4AF37] font-bold text-[11px] sm:text-xs tracking-wide group-hover:text-yellow-400 transition-colors">UNAL PARTNERLİK</span>
+            <span class="text-gray-400 font-medium text-[9px] sm:text-[10px] tracking-wider mt-0.5">DEMO WEBSİTESİDİR</span>
+        </div>
+    </a>
+
+    <!-- Floating WhatsApp Button (Bottom Right) -->
+    <a href="https://wa.me/905077918925" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-40 bg-[#25D366] text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-2xl sm:text-3xl shadow-lg shadow-green-500/40 hover:scale-110 transition-transform duration-300 group" aria-label="WhatsApp İletişim">
+        <i class="fa-brands fa-whatsapp"></i>
+        <!-- Ping Animation -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-30 group-hover:animate-ping -z-10"></span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // Update Copyright Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            // İkonu değiştir
+            const icon = btn.querySelector('i');
+            if(menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                btn.querySelector('i').classList.remove('fa-xmark');
+                btn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        // Sticky Navbar Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-lg');
+                nav.classList.remove('py-2');
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.classList.add('py-2');
+            }
+        });
+
+        // Scroll Reveal Animations
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 50; // Threshold'u düşürdüm ki mobilde daha erken çıksın
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        setTimeout(reveal, 100); // Sayfa yüklendiğinde ufak bir gecikme ile çalıştır
+
+        // FAQ Accordion Logic
+        const faqButtons = document.querySelectorAll('.faq-button');
+        faqButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                // Close all other accordions
+                faqButtons.forEach(otherButton => {
+                    if(otherButton !== button) {
+                        otherButton.nextElementSibling.style.maxHeight = null;
+                        otherButton.querySelector('i').style.transform = 'rotate(0deg)';
+                        otherButton.parentElement.classList.remove('border-tertiary', 'shadow-md');
+                    }
+                });
+
+                // Toggle current
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                    button.parentElement.classList.remove('border-tertiary', 'shadow-md');
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                    button.parentElement.classList.add('border-tertiary', 'shadow-md');
+                }
+            });
+        });
+
+        // Simple Testimonial Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let slideInterval;
+
+        function showSlide(n) {
+            slides.forEach(slide => {
+                slide.classList.add('hidden');
+                slide.classList.remove('active', 'opacity-100');
+                slide.classList.add('opacity-0');
+            });
+            dots.forEach(dot => dot.classList.remove('active', 'bg-[#E5793E]'));
+            dots.forEach(dot => dot.classList.add('bg-white/30'));
+
+            slides[n].classList.remove('hidden');
+            
+            // Reflow hack for animation
+            void slides[n].offsetWidth;
+            
+            slides[n].classList.remove('opacity-0');
+            slides[n].classList.add('active', 'opacity-100');
+            
+            dots[n].classList.remove('bg-white/30');
+            dots[n].classList.add('active', 'bg-[#E5793E]');
+            currentSlide = n;
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+            resetInterval();
+        }
+
+        function nextSlide() {
+            if(slides.length === 0) return;
+            let next = currentSlide + 1;
+            if (next >= slides.length) next = 0;
+            showSlide(next);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 6000); // Süreyi biraz uzattım okumak için
+        }
+
+        if(slides.length > 0) {
+            showSlide(0);
+            resetInterval();
+        }
+
+    </script>
+</body>
+</html>
